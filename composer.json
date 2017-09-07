@@ -1,0 +1,31 @@
+{
+    "name": "wearesho-team/cpa-integration",
+    "description": "CPA Networks postback integration",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexander Letnikow",
+            "email": "reclamme@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "symfony/http-foundation": "^3.3",
+        "symfony/config": "^3.3",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Wearesho\\Cpa\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Wearesho\\Cpa\\Tests\\": "tests"
+        }
+    }
+}
