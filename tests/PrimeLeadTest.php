@@ -8,7 +8,7 @@ use Psr\Http\Message\RequestInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 use Wearesho\Cpa\Exceptions\DuplicatedConversionException;
-use Wearesho\Cpa\Exceptions\UnsupportedConversionType;
+use Wearesho\Cpa\Exceptions\UnsupportedConversionTypeException;
 
 use Wearesho\Cpa\PrimeLead\Lead;
 use Wearesho\Cpa\PrimeLead\Conversion;
@@ -88,7 +88,7 @@ class PrimeLeadTest extends CpaTestCase
         $lead = new SalesDoublerLead(1);
         $conversion = new SalesDoublerConversion($lead, 2);
 
-        $this->expectException(UnsupportedConversionType::class);
+        $this->expectException(UnsupportedConversionTypeException::class);
 
         $this->service->send($conversion);
     }

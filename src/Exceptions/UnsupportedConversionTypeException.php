@@ -17,7 +17,7 @@ use Wearesho\Cpa\Interfaces\PostbackServiceInterface;
  * Class UnsupportedConversionType
  * @package Wearesho\Cpa\Exceptions
  */
-class UnsupportedConversionType extends CpaException
+class UnsupportedConversionTypeException extends CpaException
 {
     /** @var PostbackServiceInterface */
     protected $postbackService;

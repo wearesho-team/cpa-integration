@@ -5,7 +5,7 @@ namespace Wearesho\Cpa\Interfaces;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
 use Wearesho\Cpa\Exceptions\DuplicatedConversionException;
-use Wearesho\Cpa\Exceptions\UnsupportedConversionType;
+use Wearesho\Cpa\Exceptions\UnsupportedConversionTypeException;
 
 /**
  * Interface PostbackServiceInterface
@@ -18,7 +18,7 @@ interface PostbackServiceInterface
      *
      * @param ConversionInterface $conversion
      *
-     * @throws UnsupportedConversionType
+     * @throws UnsupportedConversionTypeException
      * @throws DuplicatedConversionException
      * @throws RequestException
      *

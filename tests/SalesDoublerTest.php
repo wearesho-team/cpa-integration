@@ -13,7 +13,7 @@ use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Wearesho\Cpa\Exceptions\DuplicatedConversionException;
-use Wearesho\Cpa\Exceptions\UnsupportedConversionType;
+use Wearesho\Cpa\Exceptions\UnsupportedConversionTypeException;
 use Wearesho\Cpa\SalesDoubler\PostbackServiceConfig;
 use Wearesho\Cpa\SalesDoubler\Conversion;
 use Wearesho\Cpa\SalesDoubler\Lead;
@@ -93,7 +93,7 @@ class SalesDoublerTest extends CpaTestCase
         $lead = new PrimeLeadLead(1);
         $conversion = new PrimeLeadConversion($lead, 2);
 
-        $this->expectException(UnsupportedConversionType::class);
+        $this->expectException(UnsupportedConversionTypeException::class);
 
         $this->service->send($conversion);
     }

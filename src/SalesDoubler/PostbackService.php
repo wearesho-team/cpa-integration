@@ -7,7 +7,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\ResponseInterface;
 use Wearesho\Cpa\Exceptions\DuplicatedConversionException;
-use Wearesho\Cpa\Exceptions\UnsupportedConversionType;
+use Wearesho\Cpa\Exceptions\UnsupportedConversionTypeException;
 use Wearesho\Cpa\Interfaces\ConversionInterface;
 use Wearesho\Cpa\Interfaces\ConversionRepositoryInterface;
 use Wearesho\Cpa\Interfaces\PostbackServiceInterface;
@@ -50,7 +50,7 @@ class PostbackService implements PostbackServiceInterface
      *
      * @param ConversionInterface $conversion
      *
-     * @throws UnsupportedConversionType
+     * @throws UnsupportedConversionTypeException
      * @throws DuplicatedConversionException
      * @throws RequestException
      *
@@ -59,7 +59,7 @@ class PostbackService implements PostbackServiceInterface
     public function send(ConversionInterface $conversion): ResponseInterface
     {
         if (!$conversion instanceof Conversion) {
-            throw new UnsupportedConversionType($this, $conversion);
+            throw new UnsupportedConversionTypeException($this, $conversion);
         }
 
         $previousSentConversion = $this->repository->pull(
