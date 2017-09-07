@@ -5,7 +5,7 @@ php:
     - 7.1
 
 script:
-    - vendor/bin/phpunit --coverage-clover=coverage.xml
+    - ./vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
