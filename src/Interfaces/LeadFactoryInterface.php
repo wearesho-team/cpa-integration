@@ -2,8 +2,6 @@
 
 namespace Wearesho\Cpa\Interfaces;
 
-use Symfony\Component\HttpFoundation\Request;
-
 /**
  * Interface ConversionFactoryInterface
  * @package Wearesho\Cpa\Interfaces
@@ -11,10 +9,24 @@ use Symfony\Component\HttpFoundation\Request;
 interface LeadFactoryInterface
 {
     /**
-     * Parse web request and create lead with common information
+     * Parse request url and create lead with common information
      *
-     * @param Request $request
-     * @return LeadInterface
+     * @param string $requestUrl
+     * @return LeadInterface|null
      */
-    public function create(Request $request): LeadInterface;
+    public function fromUrl(string $requestUrl);
+
+    /**
+     * Parse cookies
+     *
+     * @param string $cookie
+     * @return LeadInterface|null
+     */
+    public function fromCookie(string $cookie);
+
+    /**
+     * @param LeadInterface $lead
+     * @return string
+     */
+    public function toCookie($lead): string;
 }

@@ -19,5 +19,9 @@ namespace Wearesho\Cpa\Interfaces;
  */
 interface LeadInterface
 {
-
+    /**
+     * @param string $conversionId
+     * @return ConversionInterface
+     */
+    public function createConversion(string $conversionId): ConversionInterface;
 }

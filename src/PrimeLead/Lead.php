@@ -3,6 +3,7 @@
 namespace Wearesho\Cpa\PrimeLead;
 
 
+use Wearesho\Cpa\Interfaces\ConversionInterface;
 use Wearesho\Cpa\Interfaces\LeadInterface;
 
 /**
@@ -11,7 +12,7 @@ use Wearesho\Cpa\Interfaces\LeadInterface;
  */
 class Lead implements LeadInterface
 {
-    /** @var string  */
+    /** @var string */
     protected $transactionId;
 
     /**
@@ -29,5 +30,14 @@ class Lead implements LeadInterface
     public function getTransactionId(): string
     {
         return $this->transactionId;
+    }
+
+    /**
+     * @param string $conversionId
+     * @return ConversionInterface
+     */
+    public function createConversion(string $conversionId): ConversionInterface
+    {
+        return new Conversion($this, $conversionId);
     }
 }
