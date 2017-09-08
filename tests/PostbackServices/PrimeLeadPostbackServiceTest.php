@@ -1,32 +1,29 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: horat1us
- * Date: 9/7/17
- * Time: 10:00 AM
- */
 
-namespace Wearesho\Cpa\Tests;
+namespace Wearesho\Cpa\Tests\PostbackServices;
 
 use GuzzleHttp\Psr7\Response;
-
 use Psr\Http\Message\RequestInterface;
+
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+
 use Wearesho\Cpa\Exceptions\DuplicatedConversionException;
 use Wearesho\Cpa\Exceptions\UnsupportedConversionTypeException;
-use Wearesho\Cpa\SalesDoubler\PostbackServiceConfig;
-use Wearesho\Cpa\SalesDoubler\Conversion;
-use Wearesho\Cpa\SalesDoubler\Lead;
-use Wearesho\Cpa\SalesDoubler\PostbackService;
 
-use Wearesho\Cpa\PrimeLead\Lead as PrimeLeadLead;
-use Wearesho\Cpa\PrimeLead\Conversion as PrimeLeadConversion;
+use Wearesho\Cpa\PrimeLead\Lead;
+use Wearesho\Cpa\PrimeLead\Conversion;
+use Wearesho\Cpa\PrimeLead\PostbackServiceConfig;
+use Wearesho\Cpa\PrimeLead\PostbackService;
+
+use Wearesho\Cpa\SalesDoubler\Lead as SalesDoublerLead;
+use Wearesho\Cpa\SalesDoubler\Conversion as SalesDoublerConversion;
+
 
 /**
- * Class SalesDoublerTestCase
+ * Class PrimeLeadTest
  * @package Wearesho\Cpa\Tests
  */
-class SalesDoublerTest extends CpaTestCase
+class PrimeLeadPostbackServiceTest extends PostbackServiceTestCase
 {
     /** @var  PostbackServiceConfig */
     protected $postbackConfig;
@@ -40,8 +37,7 @@ class SalesDoublerTest extends CpaTestCase
 
         $this->postbackConfig = new PostbackServiceConfig();
         $this->postbackConfig->setId(mt_rand());
-        $this->postbackConfig->setToken(mt_rand());
-        $this->postbackConfig->setBaseUri("http://rdr.salesdoubler.com.ua/test/");
+        $this->postbackConfig->setBaseUri("https://primeadv.go2cloud.org/test/");
 
         $this->service = new PostbackService(
             $this->repository,
@@ -52,20 +48,19 @@ class SalesDoublerTest extends CpaTestCase
 
     public function testUrl()
     {
-        $clickId = 1001;
+        $transactionId = 1001;
         $conversionId = 1002;
 
-        $lead = new Lead($clickId);
+        $lead = new Lead($transactionId);
         $conversion = new Conversion($lead, $conversionId);
 
         $requestSent = false;
-        $this->client->setClosure(function (RequestInterface $request) use (&$requestSent, $clickId, $conversionId) {
+        $this->client->setClosure(function (RequestInterface $request) use (&$requestSent, $transactionId, $conversionId) {
             $requestSent = true;
 
             $this->assertEquals(
-                "http://rdr.salesdoubler.com.ua/test/"
-                . "in/postback/{$this->postbackConfig->getId()}/{$clickId}"
-                . "?trans_id={$conversionId}&token={$this->postbackConfig->getToken()}",
+                "https://primeadv.go2cloud.org/test/"
+                . "{$this->postbackConfig->getId()}?adv_sub={$conversionId}&transaction_id={$transactionId}",
                 $request->getUri(),
                 "Request must have correct URI"
             );
@@ -90,8 +85,8 @@ class SalesDoublerTest extends CpaTestCase
 
     public function testInvalidConversionType()
     {
-        $lead = new PrimeLeadLead(1);
-        $conversion = new PrimeLeadConversion($lead, 2);
+        $lead = new SalesDoublerLead(1);
+        $conversion = new SalesDoublerConversion($lead, 2);
 
         $this->expectException(UnsupportedConversionTypeException::class);
 

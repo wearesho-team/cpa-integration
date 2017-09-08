@@ -6,7 +6,7 @@
  * Time: 10:20 AM
  */
 
-namespace Wearesho\Cpa\Tests;
+namespace Wearesho\Cpa\Tests\PostbackServices;
 
 
 use PHPUnit\Framework\TestCase;
@@ -17,7 +17,7 @@ use Wearesho\Cpa\Tests\Helpers\HttpTestClient;
  * Class CpaTestCase
  * @package Wearesho\Cpa\Tests
  */
-abstract class CpaTestCase extends TestCase
+abstract class PostbackServiceTestCase extends TestCase
 {
     /** @var  ConversionMemoryRepository */
     protected $repository;
