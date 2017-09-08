@@ -6,7 +6,7 @@
  * Time: 11:41 AM
  */
 
-namespace Wearesho\Cpa\Tests;
+namespace Wearesho\Cpa\Tests\Exceptions;
 
 
 use GuzzleHttp\Client;
@@ -27,8 +27,8 @@ class UnsupportedConversionTypeExceptionTest extends TestCase
 
         $postbackService = new PostbackService(
             new ConversionMemoryRepository(),
-            new PostbackServiceConfig(),
-            new Client()
+            new Client(),
+            new PostbackServiceConfig()
         );
 
         $exception = new UnsupportedConversionTypeException(

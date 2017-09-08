@@ -36,8 +36,8 @@ class PostbackService implements PostbackServiceInterface
      */
     public function __construct(
         ConversionRepositoryInterface $repository,
-        PostbackServiceConfig $config,
-        ClientInterface $client
+        ClientInterface $client,
+        PostbackServiceConfig $config
     )
     {
         $this->repository = $repository;

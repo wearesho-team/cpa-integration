@@ -6,7 +6,7 @@
  * Time: 11:03 AM
  */
 
-namespace Wearesho\Cpa\Tests;
+namespace Wearesho\Cpa\Tests\Exceptions;
 
 
 use PHPUnit\Framework\TestCase;
