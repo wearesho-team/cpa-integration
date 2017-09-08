@@ -26,7 +26,7 @@ use Wearesho\Cpa\PrimeLead\Conversion as PrimeLeadConversion;
  * Class SalesDoublerTestCase
  * @package Wearesho\Cpa\Tests
  */
-class SalesDoublerPostbackServiceTestCase extends PostbackServiceTestCase
+class SalesDoublerPostbackServiceTest extends PostbackServiceTestCase
 {
     /** @var  PostbackServiceConfig */
     protected $postbackConfig;
