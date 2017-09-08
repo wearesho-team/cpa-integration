@@ -8,8 +8,6 @@
 
 namespace Wearesho\Cpa\Exceptions;
 
-
-use Throwable;
 use Wearesho\Cpa\Interfaces\ConversionInterface;
 use Wearesho\Cpa\Interfaces\PostbackServiceInterface;
 
@@ -28,7 +26,8 @@ class UnsupportedConversionTypeException extends CpaException
     public function __construct(
         PostbackServiceInterface $postbackService,
         ConversionInterface $conversion,
-        $code = 0, Throwable $previous = null
+        $code = 0,
+        \Throwable $previous = null
     )
     {
         $message = get_class($postbackService) . " does not support " . get_class($conversion);

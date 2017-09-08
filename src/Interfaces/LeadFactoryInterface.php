@@ -2,6 +2,8 @@
 
 namespace Wearesho\Cpa\Interfaces;
 
+use Wearesho\Cpa\Exceptions\UnsupportedLeadException;
+
 /**
  * Interface ConversionFactoryInterface
  * @package Wearesho\Cpa\Interfaces
@@ -26,7 +28,8 @@ interface LeadFactoryInterface
 
     /**
      * @param LeadInterface $lead
+     * @throws UnsupportedLeadException
      * @return string
      */
-    public function toCookie($lead): string;
+    public function toCookie(LeadInterface $lead): string;
 }

@@ -9,7 +9,9 @@
 namespace Wearesho\Cpa\SalesDoubler;
 
 use Wearesho\Cpa\AbstractLeadFactory;
+use Wearesho\Cpa\Exceptions\UnsupportedLeadException;
 use Wearesho\Cpa\Interfaces\LeadFactoryInterface;
+use Wearesho\Cpa\Interfaces\LeadInterface;
 
 /**
  * Class LeadFactory
@@ -24,11 +26,16 @@ class LeadFactory extends AbstractLeadFactory implements LeadFactoryInterface
     const UTM_SOURCE = 'salesdoubler';
 
     /**
-     * @param Lead $lead
+     * @param Lead|LeadInterface $lead
+     * @throws UnsupportedLeadException
      * @return string
      */
-    public function toCookie($lead): string
+    public function toCookie(LeadInterface $lead): string
     {
+        if (!$lead instanceof Lead) {
+            throw new UnsupportedLeadException($this, $lead);
+        }
+
         return json_encode([
             'utm_source' => static::UTM_SOURCE,
             static::CLICK_ID_PARAM => $lead->getClickId(),

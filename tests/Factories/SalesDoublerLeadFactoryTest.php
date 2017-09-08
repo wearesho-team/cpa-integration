@@ -10,8 +10,11 @@ namespace Wearesho\Cpa\Tests\Factories;
 
 
 use PHPUnit\Framework\TestCase;
+use Wearesho\Cpa\Exceptions\UnsupportedLeadException;
+
 use Wearesho\Cpa\SalesDoubler\Lead;
 use Wearesho\Cpa\SalesDoubler\LeadFactory;
+use Wearesho\Cpa\PrimeLead\Lead as PrimeLeadLead;
 
 class SalesDoublerLeadFactoryTest extends TestCase
 {
@@ -119,5 +122,12 @@ class SalesDoublerLeadFactoryTest extends TestCase
             $query['aff_sub'],
             "Cookie generator should include aff_sub from Lead::clickId "
         );
+    }
+
+
+    public function testCookieGenerationFromInvalidLead()
+    {
+        $this->expectException(UnsupportedLeadException::class);
+        $this->factory->toCookie(new PrimeLeadLead(1));
     }
 }

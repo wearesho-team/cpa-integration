@@ -10,6 +10,7 @@ namespace Wearesho\Cpa\PrimeLead;
 
 
 use Wearesho\Cpa\AbstractLeadFactory;
+use Wearesho\Cpa\Exceptions\UnsupportedLeadException;
 use Wearesho\Cpa\Interfaces\LeadFactoryInterface;
 use Wearesho\Cpa\Interfaces\LeadInterface;
 
@@ -26,6 +27,23 @@ class LeadFactory extends AbstractLeadFactory implements LeadFactoryInterface
     const TRANSACTION_ID_PARAM = 'transaction_id';
 
     /**
+     * @param Lead|LeadInterface $lead
+     * @throws UnsupportedLeadException
+     * @return string
+     */
+    public function toCookie(LeadInterface $lead): string
+    {
+        if (!$lead instanceof Lead) {
+            throw new UnsupportedLeadException($this, $lead);
+        }
+
+        return json_encode([
+            'utm_source' => static::UTM_SOURCE,
+            static::TRANSACTION_ID_PARAM => $lead->getTransactionId(),
+        ]);
+    }
+
+    /**
      * @param array $query
      * @return LeadInterface|null
      */
@@ -39,17 +57,5 @@ class LeadFactory extends AbstractLeadFactory implements LeadFactoryInterface
             return null;
         }
         return new Lead($query[static::TRANSACTION_ID_PARAM]);
-    }
-
-    /**
-     * @param Lead $lead
-     * @return string
-     */
-    public function toCookie($lead): string
-    {
-        return json_encode([
-            'utm_source' => static::UTM_SOURCE,
-            static::TRANSACTION_ID_PARAM => $lead->getTransactionId(),
-        ]);
     }
 }
