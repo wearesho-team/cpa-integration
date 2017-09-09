@@ -19,17 +19,17 @@ class UnsupportedLeadException extends CpaException
     protected $lead;
 
     public function __construct(
-        LeadFactoryInterface $postbackService,
-        LeadInterface $conversion,
+        LeadFactoryInterface $leadFactory,
+        LeadInterface $lead,
         $code = 0,
         \Throwable $previous = null
     )
     {
-        $message = get_class($postbackService) . " does not support " . get_class($conversion);
+        $message = get_class($leadFactory) . " does not support " . get_class($lead);
         parent::__construct($message, $code, $previous);
 
-        $this->lead = $conversion;
-        $this->leadFactory = $postbackService;
+        $this->lead = $lead;
+        $this->leadFactory = $leadFactory;
     }
 
     /**

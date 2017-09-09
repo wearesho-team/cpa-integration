@@ -17,7 +17,7 @@ use Wearesho\Cpa\Repository\ConversionMemoryRepository;
 
 class UnsupportedPostbackServiceExceptionTest extends TestCase
 {
-    public function testMessage()
+    public function testMessageAndGetter()
     {
         $exception = new UnsupportedPostbackServiceException(
             $service = new PostbackService(
@@ -28,7 +28,12 @@ class UnsupportedPostbackServiceExceptionTest extends TestCase
         $this->assertContains(
             get_class($service),
             $exception->getMessage(),
-            "Message should contain class name of passed-to-constructor service"
+            "Message should contain class name of passed to constructor service instance"
+        );
+        $this->assertEquals(
+            $service,
+            $exception->getService(),
+            "Service getter must return service instance passed to constructor"
         );
     }
 }
