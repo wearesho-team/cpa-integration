@@ -125,6 +125,7 @@ class PostbackService implements PostbackServiceInterface
             try {
                 return $service->send($conversion);
             } catch (UnsupportedConversionTypeException $exception) {
+                continue;
             }
         }
         throw new UnsupportedConversionTypeException($this, $conversion);

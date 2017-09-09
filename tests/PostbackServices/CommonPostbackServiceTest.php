@@ -84,13 +84,7 @@ class CommonPostbackServiceTest extends PostbackServiceTestCase
 
     public function testConfiguringChildService()
     {
-        $this->postbackConfig->setConfig([
-            'SalesDoubler' => [
-                'id' => $id = mt_rand(),
-                'token' => $token = mt_rand(),
-                'baseUrl' => $baseUrl = 'https://wearesho.com/' . mt_rand() . '/',
-            ],
-        ]);
+        $this->postbackConfig->setConfig($salesDoublerConfig = $this->getValidSalesDoublerConfig());
         $conversionSent = false;
         $this->client->setClosure(function () use (&$conversionSent) {
             $conversionSent = true;
@@ -110,17 +104,17 @@ class CommonPostbackServiceTest extends PostbackServiceTestCase
             "It should configure child service from provided array"
         );
         $this->assertEquals(
-            $id,
+            $salesDoublerConfig['SalesDoubler']['id'],
             $childConfig->getId(),
             "It should correctly configure SalesDoublerPostbackServiceConfig::id"
         );
         $this->assertEquals(
-            $token,
+            $salesDoublerConfig['SalesDoubler']['token'],
             $childConfig->getToken(),
             "It should correctly configure SalesDoublerPostbackServiceConfig::token"
         );
         $this->assertEquals(
-            $baseUrl,
+            $salesDoublerConfig['SalesDoubler']['baseUrl'],
             $childConfig->getBaseUrl(),
             "It should correctly configure SalesDoublerPostbackServiceConfig::baseUrl"
         );
@@ -128,13 +122,7 @@ class CommonPostbackServiceTest extends PostbackServiceTestCase
 
     public function testConfiguringConfiguredChildService()
     {
-        $this->postbackConfig->setConfig([
-            'SalesDoubler' => [
-                'id' => $id = mt_rand(),
-                'token' => $token = mt_rand(),
-                'baseUrl' => $baseUrl = 'https://wearesho.com/' . mt_rand() . '/',
-            ],
-        ]);
+        $this->postbackConfig->setConfig($this->getValidSalesDoublerConfig());
 
         $childConfig = new SalesDoublerPostbackServiceConfig();
         $childConfig->setId(mt_rand());
@@ -152,6 +140,8 @@ class CommonPostbackServiceTest extends PostbackServiceTestCase
 
     public function testSkippingWrongChildServices()
     {
+        $this->postbackConfig->setConfig($this->getValidSalesDoublerConfig());
+
         $exceptionCaught = false;
         $unsupportedConversion = new PrimeLeadConversion(new PrimeLeadLead(1), 1);
         try {
@@ -176,4 +166,14 @@ class CommonPostbackServiceTest extends PostbackServiceTestCase
 
     }
 
+    protected function getValidSalesDoublerConfig(): array
+    {
+        return [
+            'SalesDoubler' => [
+                'id' => mt_rand(),
+                'token' => mt_rand(),
+                'baseUrl' => 'https://wearesho.com/' . mt_rand() . '/',
+            ],
+        ];
+    }
 }
