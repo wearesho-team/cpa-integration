@@ -1,6 +1,8 @@
 # CPA Integration
 [![codecov](https://codecov.io/gh/wearesho-team/cpa-integration/branch/master/graph/badge.svg)](https://codecov.io/gh/wearesho-team/cpa-integration)
 [![Build Status](https://travis-ci.org/wearesho-team/cpa-integration.svg?branch=master)](https://travis-ci.org/wearesho-team/cpa-integration)
+[![License](https://poser.pugx.org/wearesho-team/cpa-integration/license)](https://packagist.org/packages/wearesho-team/cpa-integration)
+[![Latest Stable Version](https://poser.pugx.org/wearesho-team/cpa-integration/version)](https://packagist.org/packages/wearesho-team/cpa-integration)
 
 
 **PHP7 is required**
