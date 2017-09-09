@@ -1,6 +1,6 @@
 # CPA Integration
 [![codecov](https://codecov.io/gh/wearesho-team/cpa-integration/branch/master/graph/badge.svg)](https://codecov.io/gh/wearesho-team/cpa-integration)
-[![Build Status](https://travis-ci.org/wearesho-team/cpa-integration.svg)](https://travis-ci.org/wearesho-team/cpa-integration)
+[![Build Status](https://travis-ci.org/wearesho-team/cpa-integration.svg?branch=master)](https://travis-ci.org/wearesho-team/cpa-integration)
 
 
 **PHP7 is required**
