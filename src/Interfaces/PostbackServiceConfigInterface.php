@@ -1,19 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: horat1us
- * Date: 9/8/17
- * Time: 7:22 PM
- */
 
 namespace Wearesho\Cpa\Interfaces;
 
+use Symfony\Component\Config\Definition\ConfigurationInterface;
+
 
 /**
- * Class PostbackServiceConfigInterface
+ * Interface PostbackServiceConfigInterface
  * @package Wearesho\Cpa\Interfaces
  */
-class PostbackServiceConfigInterface
+interface PostbackServiceConfigInterface extends ConfigurationInterface
 {
 
 }

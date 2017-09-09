@@ -3,13 +3,13 @@
 namespace Wearesho\Cpa\SalesDoubler;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Wearesho\Cpa\Interfaces\PostbackServiceConfigInterface;
 
 /**
  * Class PostbackServiceConfig
  * @package Wearesho\Cpa\SalesDoubler
  */
-class PostbackServiceConfig implements ConfigurationInterface
+class PostbackServiceConfig implements PostbackServiceConfigInterface
 {
     /** @var  int */
     protected $id;
