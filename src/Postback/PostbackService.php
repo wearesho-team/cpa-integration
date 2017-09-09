@@ -116,12 +116,14 @@ class PostbackService implements PostbackServiceInterface
             if (is_null($service->getConfig())) {
                 $config = $this->config->getConfiguredConfigInstance($service);
                 if ($config instanceof PostbackServiceConfigInterface) {
-                    $this->setConfig($config);
+                    $service->setConfig($config);
+                } else {
+                    continue;
                 }
             }
 
             try {
-                $service->send($conversion);
+                return $service->send($conversion);
             } catch (UnsupportedConversionTypeException $exception) {
             }
         }
