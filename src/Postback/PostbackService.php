@@ -114,7 +114,7 @@ class PostbackService implements PostbackServiceInterface
     {
         foreach ($this->services as $service) {
             if (is_null($service->getConfig())) {
-                $config = $this->config->getInstance($service);
+                $config = $this->config->getConfiguredConfigInstance($service);
                 if ($config instanceof PostbackServiceConfigInterface) {
                     $this->setConfig($config);
                 }

@@ -29,9 +29,9 @@ class PostbackServiceConfig implements PostbackServiceConfigInterface
      * PostbackServiceConfig constructor.
      * @param array $config
      */
-    public function __construct(array $config)
+    public function __construct(array $config = [])
     {
-        $this->config;
+        $this->config = $config;
     }
 
     /**
@@ -55,10 +55,14 @@ class PostbackServiceConfig implements PostbackServiceConfigInterface
      * @throws UnsupportedPostbackServiceException
      * @return PostbackServiceConfigInterface
      */
-    public function getInstance(PostbackServiceInterface $service)
+    public function getConfiguredConfigInstance(PostbackServiceInterface $service)
     {
         $configInstance = $this->getConfigInstance($service);
-        if (!$this->config[$configInstance->getConfigTreeBuilderRoot()]) {
+        $rootIndex = $configInstance->getConfigTreeBuilderRoot();
+        if (
+            !array_key_exists($rootIndex, $this->config)
+            || !is_array($this->config[$rootIndex])
+        ) {
             return null;
         }
 
@@ -68,10 +72,9 @@ class PostbackServiceConfig implements PostbackServiceConfigInterface
         $closure = function ($key, $value) {
             $this->{$key} = $value;
         };
-        $closure->bindTo($configInstance, $configInstance);
 
         foreach ($config as $key => $value) {
-            call_user_func($closure, $key, $value);
+            $closure->call($configInstance, $key, $value);
         }
 
         return $configInstance;
@@ -82,7 +85,7 @@ class PostbackServiceConfig implements PostbackServiceConfigInterface
      * @return PostbackServiceConfigInterface
      * @throws UnsupportedPostbackServiceException
      */
-    private function getConfigInstance(PostbackServiceInterface $service): PostbackServiceConfigInterface
+    public function getConfigInstance(PostbackServiceInterface $service): PostbackServiceConfigInterface
     {
         switch (get_class($service)) {
             case PrimeLeadPostbackService::class:
