@@ -13,6 +13,7 @@ use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Wearesho\Cpa\Exceptions\DuplicatedConversionException;
+use Wearesho\Cpa\Exceptions\UnsupportedConfigException;
 use Wearesho\Cpa\Exceptions\UnsupportedConversionTypeException;
 use Wearesho\Cpa\SalesDoubler\PostbackServiceConfig;
 use Wearesho\Cpa\SalesDoubler\Conversion;
@@ -21,6 +22,7 @@ use Wearesho\Cpa\SalesDoubler\PostbackService;
 
 use Wearesho\Cpa\PrimeLead\Lead as PrimeLeadLead;
 use Wearesho\Cpa\PrimeLead\Conversion as PrimeLeadConversion;
+use Wearesho\Cpa\PrimeLead\PostbackServiceConfig as PrimeLeadPostbackServiceConfig;
 
 /**
  * Class SalesDoublerTestCase
@@ -101,6 +103,23 @@ class SalesDoublerPostbackServiceTest extends PostbackServiceTestCase
     public function testConfigTree()
     {
         $tree = $this->postbackConfig->getConfigTreeBuilder();
+        $this->assertEquals(
+            $this->postbackConfig->getConfigTreeBuilderRoot(),
+            $tree->buildTree()->getName(),
+            "Config tree builder must have root node name equal to PostbackServiceConfig::getConfigTreeBuilderRoot()"
+        );
         $this->assertInstanceOf(TreeBuilder::class, $tree);
+    }
+
+    public function testSettingInvalidConfig()
+    {
+        $this->service->setConfig($config = new PostbackServiceConfig());
+        $this->assertEquals(
+            $config,
+            $this->service->getConfig(),
+            "Getter must return same instance passed to setter"
+        );
+        $this->expectException(UnsupportedConfigException::class);
+        $this->service->setConfig(new PrimeLeadPostbackServiceConfig());
     }
 }
