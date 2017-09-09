@@ -9,8 +9,9 @@
 namespace Wearesho\Cpa\Tests\PostbackServices;
 
 
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
-use Wearesho\Cpa\ConversionMemoryRepository;
+use Wearesho\Cpa\Repository\ConversionMemoryRepository;
 use Wearesho\Cpa\Tests\Helpers\HttpTestClient;
 
 /**
@@ -31,5 +32,8 @@ abstract class PostbackServiceTestCase extends TestCase
 
         $this->repository = new ConversionMemoryRepository();
         $this->client = new HttpTestClient();
+        $this->client->setClosure(function () {
+            return new Response();
+        });
     }
 }

@@ -11,7 +11,7 @@ namespace Wearesho\Cpa\Tests\Factories;
 
 use PHPUnit\Framework\TestCase;
 use Wearesho\Cpa\Exceptions\UnsupportedLeadException;
-use Wearesho\Cpa\LeadFactory;
+use Wearesho\Cpa\Lead\LeadFactory;
 use Wearesho\Cpa\PrimeLead\Lead as PrimeLeadLead;
 
 class LeadFactoryTest extends TestCase

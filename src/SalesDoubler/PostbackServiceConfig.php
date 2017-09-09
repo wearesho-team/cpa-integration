@@ -3,13 +3,13 @@
 namespace Wearesho\Cpa\SalesDoubler;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Wearesho\Cpa\Interfaces\PostbackServiceConfigInterface;
 
 /**
  * Class PostbackServiceConfig
  * @package Wearesho\Cpa\SalesDoubler
  */
-class PostbackServiceConfig implements ConfigurationInterface
+class PostbackServiceConfig implements PostbackServiceConfigInterface
 {
     /** @var  int */
     protected $id;
@@ -18,7 +18,7 @@ class PostbackServiceConfig implements ConfigurationInterface
     protected $token;
 
     /** @var  string */
-    protected $baseUri;
+    protected $baseUrl;
 
     /**
      * @return int
@@ -59,18 +59,18 @@ class PostbackServiceConfig implements ConfigurationInterface
     /**
      * @return string
      */
-    public function getBaseUri(): string
+    public function getBaseUrl(): string
     {
-        return $this->baseUri;
+        return $this->baseUrl;
     }
 
     /**
-     * @param string $baseUri
+     * @param string $baseUrl
      * @return self
      */
-    public function setBaseUri(string $baseUri): self
+    public function setBaseUrl(string $baseUrl): self
     {
-        $this->baseUri = $baseUri;
+        $this->baseUrl = $baseUrl;
         return $this;
     }
 
@@ -82,14 +82,22 @@ class PostbackServiceConfig implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root("SalesDoubler");
+        $rootNode = $treeBuilder->root($this->getConfigTreeBuilderRoot());
 
         $rootNode->children()
-            ->scalarNode("baseUri")->defaultValue("http://rdr.salesdoubler.com.ua/")->end()
+            ->scalarNode("baseUrl")->defaultValue("http://rdr.salesdoubler.com.ua/")->end()
             ->integerNode("id")->isRequired()->end()
             ->scalarNode("token")->isRequired()->end()
             ->end();
 
         return $treeBuilder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfigTreeBuilderRoot(): string
+    {
+        return "SalesDoubler";
     }
 }

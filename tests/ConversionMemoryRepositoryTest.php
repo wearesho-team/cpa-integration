@@ -11,10 +11,10 @@ namespace Wearesho\Cpa\Tests;
 
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
-use Wearesho\Cpa\ConversionMemoryRepository;
+use Wearesho\Cpa\Repository\ConversionMemoryRepository;
 use Wearesho\Cpa\SalesDoubler\Conversion;
 use Wearesho\Cpa\SalesDoubler\Lead;
-use Wearesho\Cpa\StoredConversion;
+use Wearesho\Cpa\Repository\StoredConversion;
 
 use Wearesho\Cpa\PrimeLead\Conversion as PrimeLeadConversion;
 

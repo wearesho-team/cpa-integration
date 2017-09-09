@@ -6,7 +6,7 @@
  * Time: 1:23 PM
  */
 
-namespace Wearesho\Cpa;
+namespace Wearesho\Cpa\Lead;
 
 
 use Wearesho\Cpa\Interfaces\LeadFactoryInterface;

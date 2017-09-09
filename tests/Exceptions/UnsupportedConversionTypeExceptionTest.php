@@ -6,12 +6,12 @@
  * Time: 11:41 AM
  */
 
-namespace Wearesho\Cpa\Tests;
+namespace Wearesho\Cpa\Tests\Exceptions;
 
 
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
-use Wearesho\Cpa\ConversionMemoryRepository;
+use Wearesho\Cpa\Repository\ConversionMemoryRepository;
 use Wearesho\Cpa\Exceptions\UnsupportedConversionTypeException;
 use Wearesho\Cpa\SalesDoubler\Lead;
 use Wearesho\Cpa\SalesDoubler\Conversion;
@@ -27,8 +27,8 @@ class UnsupportedConversionTypeExceptionTest extends TestCase
 
         $postbackService = new PostbackService(
             new ConversionMemoryRepository(),
-            new PostbackServiceConfig(),
-            new Client()
+            new Client(),
+            new PostbackServiceConfig()
         );
 
         $exception = new UnsupportedConversionTypeException(

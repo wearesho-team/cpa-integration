@@ -8,6 +8,7 @@ use Psr\Http\Message\RequestInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 use Wearesho\Cpa\Exceptions\DuplicatedConversionException;
+use Wearesho\Cpa\Exceptions\UnsupportedConfigException;
 use Wearesho\Cpa\Exceptions\UnsupportedConversionTypeException;
 
 use Wearesho\Cpa\PrimeLead\Lead;
@@ -17,6 +18,7 @@ use Wearesho\Cpa\PrimeLead\PostbackService;
 
 use Wearesho\Cpa\SalesDoubler\Lead as SalesDoublerLead;
 use Wearesho\Cpa\SalesDoubler\Conversion as SalesDoublerConversion;
+use Wearesho\Cpa\SalesDoubler\PostbackServiceConfig as SalesDoublerPostbackServiceConfig;
 
 
 /**
@@ -37,12 +39,12 @@ class PrimeLeadPostbackServiceTest extends PostbackServiceTestCase
 
         $this->postbackConfig = new PostbackServiceConfig();
         $this->postbackConfig->setId(mt_rand());
-        $this->postbackConfig->setBaseUri("https://primeadv.go2cloud.org/test/");
+        $this->postbackConfig->setBaseUrl("https://primeadv.go2cloud.org/test/");
 
         $this->service = new PostbackService(
             $this->repository,
-            $this->postbackConfig,
-            $this->client
+            $this->client,
+            $this->postbackConfig
         );
     }
 
@@ -96,6 +98,23 @@ class PrimeLeadPostbackServiceTest extends PostbackServiceTestCase
     public function testConfigTree()
     {
         $tree = $this->postbackConfig->getConfigTreeBuilder();
+        $this->assertEquals(
+            $this->postbackConfig->getConfigTreeBuilderRoot(),
+            $tree->buildTree()->getName(),
+            "Config tree builder must have root node name equal to PostbackServiceConfig::getConfigTreeBuilderRoot()"
+        );
         $this->assertInstanceOf(TreeBuilder::class, $tree);
+    }
+
+    public function testSettingInvalidConfig()
+    {
+        $this->service->setConfig($config = new PostbackServiceConfig());
+        $this->assertEquals(
+            $config,
+            $this->service->getConfig(),
+            "Getter must return same instance passed to setter"
+        );
+        $this->expectException(UnsupportedConfigException::class);
+        $this->service->setConfig(new SalesDoublerPostbackServiceConfig());
     }
 }

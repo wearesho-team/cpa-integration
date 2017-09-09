@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: horat1us
- * Date: 9/7/17
- * Time: 10:01 AM
- */
 
-namespace Wearesho\Cpa;
+namespace Wearesho\Cpa\Repository;
 
 
 use Psr\Http\Message\ResponseInterface;

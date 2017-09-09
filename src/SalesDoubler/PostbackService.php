@@ -7,9 +7,11 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\ResponseInterface;
 use Wearesho\Cpa\Exceptions\DuplicatedConversionException;
+use Wearesho\Cpa\Exceptions\UnsupportedConfigException;
 use Wearesho\Cpa\Exceptions\UnsupportedConversionTypeException;
 use Wearesho\Cpa\Interfaces\ConversionInterface;
 use Wearesho\Cpa\Interfaces\ConversionRepositoryInterface;
+use Wearesho\Cpa\Interfaces\PostbackServiceConfigInterface;
 use Wearesho\Cpa\Interfaces\PostbackServiceInterface;
 use Wearesho\Cpa\Interfaces\StoredConversionInterface;
 
@@ -30,19 +32,46 @@ class PostbackService implements PostbackServiceInterface
 
     /**
      * PostbackService constructor.
+     *
      * @param ConversionRepositoryInterface $repository
-     * @param PostbackServiceConfig $config
+     * @param PostbackServiceConfig|PostbackServiceConfigInterface $config
      * @param ClientInterface $client
+     *
+     * @throws UnsupportedConfigException
      */
     public function __construct(
         ConversionRepositoryInterface $repository,
-        PostbackServiceConfig $config,
-        ClientInterface $client
+        ClientInterface $client,
+        PostbackServiceConfigInterface $config = null
     )
     {
         $this->repository = $repository;
-        $this->config = $config;
         $this->client = $client;
+        $config && $this->setConfig($config);
+    }
+
+
+    /**
+     * @param PostbackServiceConfigInterface $config
+     * @throws UnsupportedConfigException
+     * @return PostbackServiceInterface
+     */
+    public function setConfig(PostbackServiceConfigInterface $config): PostbackServiceInterface
+    {
+        if (!$config instanceof PostbackServiceConfig) {
+            throw new UnsupportedConfigException($this, $config);
+        }
+
+        $this->config = $config;
+        return $this;
+    }
+
+    /**
+     * @return PostbackServiceConfigInterface|null
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     /**
@@ -84,7 +113,7 @@ class PostbackService implements PostbackServiceInterface
     private function getPath(Conversion $conversion): string
     {
         $template = "/in/postback/:id/:clickId?trans_id=:conversionId&token=:token";
-        return rtrim($this->config->getBaseUri(), '/') . str_replace(
+        return rtrim($this->config->getBaseUrl(), '/') . str_replace(
                 [':id', ':token', ':clickId', ':conversionId',],
                 [
                     $this->config->getId(),
