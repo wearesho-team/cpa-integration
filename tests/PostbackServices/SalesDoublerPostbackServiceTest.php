@@ -41,12 +41,12 @@ class SalesDoublerPostbackServiceTest extends PostbackServiceTestCase
         $this->postbackConfig = new PostbackServiceConfig();
         $this->postbackConfig->setId(mt_rand());
         $this->postbackConfig->setToken(mt_rand());
-        $this->postbackConfig->setBaseUri("http://rdr.salesdoubler.com.ua/test/");
+        $this->postbackConfig->setBaseUrl("http://rdr.salesdoubler.com.ua/test/");
 
         $this->service = new PostbackService(
             $this->repository,
-            $this->postbackConfig,
-            $this->client
+            $this->client,
+            $this->postbackConfig
         );
     }
 

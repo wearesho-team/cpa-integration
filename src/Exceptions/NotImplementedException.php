@@ -6,7 +6,7 @@
  * Time: 10:13 AM
  */
 
-namespace Wearesho\Cpa\Tests\Helpers;
+namespace Wearesho\Cpa\Exceptions;
 
 
 use Throwable;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wearesho\Cpa;
+namespace Wearesho\Cpa\Lead;
 
 
 use Wearesho\Cpa\Exceptions\UnsupportedLeadException;

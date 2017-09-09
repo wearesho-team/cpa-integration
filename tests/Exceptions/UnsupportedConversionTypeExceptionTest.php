@@ -11,7 +11,7 @@ namespace Wearesho\Cpa\Tests\Exceptions;
 
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
-use Wearesho\Cpa\ConversionMemoryRepository;
+use Wearesho\Cpa\Repository\ConversionMemoryRepository;
 use Wearesho\Cpa\Exceptions\UnsupportedConversionTypeException;
 use Wearesho\Cpa\SalesDoubler\Lead;
 use Wearesho\Cpa\SalesDoubler\Conversion;

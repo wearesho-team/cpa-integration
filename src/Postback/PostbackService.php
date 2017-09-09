@@ -1,53 +1,78 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: horat1us
+ * Date: 9/8/17
+ * Time: 4:52 PM
+ */
 
-namespace Wearesho\Cpa\PrimeLead;
+namespace Wearesho\Cpa\Postback;
+
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\ResponseInterface;
+
 use Wearesho\Cpa\Exceptions\DuplicatedConversionException;
 use Wearesho\Cpa\Exceptions\UnsupportedConfigException;
 use Wearesho\Cpa\Exceptions\UnsupportedConversionTypeException;
+
 use Wearesho\Cpa\Interfaces\ConversionInterface;
 use Wearesho\Cpa\Interfaces\ConversionRepositoryInterface;
 use Wearesho\Cpa\Interfaces\PostbackServiceConfigInterface;
 use Wearesho\Cpa\Interfaces\PostbackServiceInterface;
-use Wearesho\Cpa\Interfaces\StoredConversionInterface;
+
+use Wearesho\Cpa\PrimeLead\PostbackService as PrimeLeadPostbackService;
+
+use Wearesho\Cpa\SalesDoubler\PostbackService as SalesDoublerPostbackService;
+
 
 /**
- * Class PostbackService
- * @package Wearesho\Cpa\PrimeLead
+ * Class PostbackServiceFactory
+ * @package Wearesho\Cpa
  */
 class PostbackService implements PostbackServiceInterface
 {
-    /** @var PostbackServiceConfig */
+    /** @var PostbackServiceConfig | null */
     protected $config;
-
-    /** @var  ConversionRepositoryInterface */
-    protected $repository;
 
     /** @var ClientInterface */
     protected $client;
 
+    /** @var ConversionRepositoryInterface */
+    protected $repository;
+
+    /** @var PostbackServiceInterface[] */
+    protected $services;
+
     /**
-     * PostbackService constructor.
+     * PostbackServiceFactory constructor.
      *
      * @param ConversionRepositoryInterface $repository
-     * @param PostbackServiceConfig|PostbackServiceConfigInterface $config
      * @param ClientInterface $client
+     * @param PostbackServiceConfig|PostbackServiceConfigInterface $config
+     * @param PostbackServiceInterface[] $services
      *
      * @throws UnsupportedConfigException
      */
     public function __construct(
         ConversionRepositoryInterface $repository,
         ClientInterface $client,
-        PostbackServiceConfigInterface $config = null
+        PostbackServiceConfigInterface $config = null,
+        array $services = null
     )
     {
         $this->repository = $repository;
         $this->client = $client;
         $config && $this->setConfig($config);
+
+        if (is_null($services)) {
+            $services = [
+                new SalesDoublerPostbackService($repository, $client),
+                new PrimeLeadPostbackService($repository, $client),
+            ];
+        }
+        $this->services = $services;
     }
 
 
@@ -75,7 +100,7 @@ class PostbackService implements PostbackServiceInterface
     }
 
     /**
-     * Sending POST query to CPA network after creating conversion
+     * Try each service to send conversion, while getting UnsupportedConversionException
      *
      * @param ConversionInterface $conversion
      *
@@ -87,40 +112,19 @@ class PostbackService implements PostbackServiceInterface
      */
     public function send(ConversionInterface $conversion): ResponseInterface
     {
-        if (!$conversion instanceof Conversion) {
-            throw new UnsupportedConversionTypeException($this, $conversion);
+        foreach ($this->services as $service) {
+            if (is_null($service->getConfig())) {
+                $config = $this->config->getInstance($service);
+                if ($config instanceof PostbackServiceConfigInterface) {
+                    $this->setConfig($config);
+                }
+            }
+
+            try {
+                $service->send($conversion);
+            } catch (UnsupportedConversionTypeException $exception) {
+            }
         }
-
-        $previousSentConversion = $this->repository->pull(
-            $conversion->getId(),
-            get_class($conversion)
-        );
-        if ($previousSentConversion instanceof StoredConversionInterface) {
-            throw new DuplicatedConversionException($conversion);
-        }
-
-        $request = new Request("get", $uri = $this->getPath($conversion));
-        $response = $this->client->send($request);
-
-        $this->repository->push($conversion, $response);
-        return $response;
-    }
-
-    /**
-     * @param Conversion $conversion
-     * @return string
-     */
-    private function getPath(Conversion $conversion): string
-    {
-        $template = "/:id?adv_sub=:conversionId&transaction_id=:transactionId";
-        return rtrim($this->config->getBaseUrl(), '/') . str_replace(
-                [':id', ':conversionId', ':transactionId'],
-                [
-                    $this->config->getId(),
-                    $conversion->getId(),
-                    $conversion->getLead()->getTransactionId(),
-                ],
-                $template
-            );
+        throw new UnsupportedConversionTypeException($this, $conversion);
     }
 }

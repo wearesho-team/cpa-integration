@@ -6,7 +6,7 @@
  * Time: 6:02 PM
  */
 
-namespace Wearesho\Cpa;
+namespace Wearesho\Cpa\Postback;
 
 use Wearesho\Cpa\Interfaces\PostbackServiceInterface;
 

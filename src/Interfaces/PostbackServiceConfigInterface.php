@@ -11,5 +11,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 interface PostbackServiceConfigInterface extends ConfigurationInterface
 {
-
+    /**
+     * @return string
+     */
+    public function getConfigTreeBuilderRoot(): string;
 }

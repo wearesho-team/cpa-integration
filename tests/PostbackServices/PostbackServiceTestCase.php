@@ -10,7 +10,7 @@ namespace Wearesho\Cpa\Tests\PostbackServices;
 
 
 use PHPUnit\Framework\TestCase;
-use Wearesho\Cpa\ConversionMemoryRepository;
+use Wearesho\Cpa\Repository\ConversionMemoryRepository;
 use Wearesho\Cpa\Tests\Helpers\HttpTestClient;
 
 /**

@@ -8,7 +8,7 @@
 
 namespace Wearesho\Cpa\SalesDoubler;
 
-use Wearesho\Cpa\AbstractLeadFactory;
+use Wearesho\Cpa\Lead\AbstractLeadFactory;
 use Wearesho\Cpa\Exceptions\UnsupportedLeadException;
 use Wearesho\Cpa\Interfaces\LeadFactoryInterface;
 use Wearesho\Cpa\Interfaces\LeadInterface;

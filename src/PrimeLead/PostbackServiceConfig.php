@@ -19,7 +19,7 @@ use Wearesho\Cpa\Interfaces\PostbackServiceConfigInterface;
 class PostbackServiceConfig implements PostbackServiceConfigInterface
 {
     /** @var  string */
-    protected $baseUri;
+    protected $baseUrl;
 
     /** @var  mixed */
     protected $id;
@@ -41,18 +41,18 @@ class PostbackServiceConfig implements PostbackServiceConfigInterface
     /**
      * @return mixed
      */
-    public function getBaseUri(): string
+    public function getBaseUrl(): string
     {
-        return $this->baseUri;
+        return $this->baseUrl;
     }
 
     /**
-     * @param string $baseUri
+     * @param string $baseUrl
      * @return PostbackServiceConfig
      */
-    public function setBaseUri(string $baseUri): self
+    public function setBaseUrl(string $baseUrl): self
     {
-        $this->baseUri = $baseUri;
+        $this->baseUrl = $baseUrl;
         return $this;
     }
 
@@ -64,13 +64,21 @@ class PostbackServiceConfig implements PostbackServiceConfigInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root("PrimeLead");
+        $rootNode = $treeBuilder->root($this->getConfigTreeBuilderRoot());
 
         $rootNode->children()
-            ->scalarNode("baseUri")->defaultValue("https://primeadv.go2cloud.org/")->end()
+            ->scalarNode("baseUrl")->defaultValue("https://primeadv.go2cloud.org/")->end()
             ->integerNode("id")->isRequired()->end()
             ->end();
 
         return $treeBuilder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfigTreeBuilderRoot(): string
+    {
+        return "PrimeLead";
     }
 }

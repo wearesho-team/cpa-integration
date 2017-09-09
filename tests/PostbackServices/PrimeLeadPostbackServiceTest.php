@@ -37,12 +37,12 @@ class PrimeLeadPostbackServiceTest extends PostbackServiceTestCase
 
         $this->postbackConfig = new PostbackServiceConfig();
         $this->postbackConfig->setId(mt_rand());
-        $this->postbackConfig->setBaseUri("https://primeadv.go2cloud.org/test/");
+        $this->postbackConfig->setBaseUrl("https://primeadv.go2cloud.org/test/");
 
         $this->service = new PostbackService(
             $this->repository,
-            $this->postbackConfig,
-            $this->client
+            $this->client,
+            $this->postbackConfig
         );
     }
 

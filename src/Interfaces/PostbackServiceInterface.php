@@ -27,8 +27,20 @@ interface PostbackServiceInterface
     public function __construct(
         ConversionRepositoryInterface $repository,
         ClientInterface $client,
-        PostbackServiceConfigInterface $config
+        PostbackServiceConfigInterface $config = null
     );
+
+    /**
+     * @param PostbackServiceConfigInterface $config
+     * @throws UnsupportedConfigException
+     * @return PostbackServiceInterface
+     */
+    public function setConfig(PostbackServiceConfigInterface $config): PostbackServiceInterface;
+
+    /**
+     * @return PostbackServiceConfigInterface|null
+     */
+    public function getConfig();
 
     /**
      * Sending POST query to CPA network after creating conversion

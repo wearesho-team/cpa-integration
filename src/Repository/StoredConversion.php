@@ -1,6 +1,6 @@
 <?php
 
-namespace Wearesho\Cpa;
+namespace Wearesho\Cpa\Repository;
 
 
 use Psr\Http\Message\ResponseInterface;
