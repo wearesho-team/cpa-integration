@@ -13,10 +13,10 @@ interface LeadRepositoryInterface
     /**
      * Saving sent conversion in storage
      *
-     * @param LeadInterface $conversion
+     * @param LeadInterface $lead
      * @return void
      */
-    public function push(LeadInterface $conversion);
+    public function push(LeadInterface $lead);
 
     /**
      * @return null|LeadInterface
