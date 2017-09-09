@@ -77,6 +77,29 @@ $cookie = $factory->toCookie($lead);
 setcookie($cookieKey, $cookie); // Or use your library to handle cookies
 ```
 
+## Configuration
+Your documentation should look like 
+```php
+<?php
+function get_config() {
+    // This function may load values from file (in your implementation)
+    return [
+        'SomeCpaNetwork' => false, // Put false (or just not add config) if you want to switch off postback to network
+        
+        'SalesDoubler' => [
+            'baseUrl' => 'http://rdr.salesdoubler.com.ua/', // optional
+            'token' => 'YourToken',
+            'id' => 'YourId',        
+        ],
+        
+        'PrimeLead' => [
+            'baseUrl' => 'https://primeadv.go2cloud.org/', // optional
+            'id' => 'YourId',
+        ],
+    ];
+}
+```
+
 ## Contributors
 1. [Alexander <horat1us> Letnikow](https://github.com/Horat1us)
 
