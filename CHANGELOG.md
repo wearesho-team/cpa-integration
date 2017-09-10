@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.3
+- Fix AbstractLeadFactory bug with missing query
+
 ## 1.1.2
 - Add [\Wearesho\Cpa\Lead\LeadMemoryRepository](https://github.com/wearesho-team/cpa-integration/blob/1.1.2/src/Lead/LeadMemoryRepository.php)
 

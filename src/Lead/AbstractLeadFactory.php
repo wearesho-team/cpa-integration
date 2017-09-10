@@ -26,7 +26,7 @@ abstract class AbstractLeadFactory implements LeadFactoryInterface
      */
     public function fromUrl(string $requestUrl)
     {
-        parse_str(parse_url($requestUrl)["query"], $query);
+        parse_str(parse_url($requestUrl)["query"] ?? "", $query);
         return $this->fromQuery($query);
     }
 
