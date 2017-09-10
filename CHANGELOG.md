@@ -1,4 +1,7 @@
-## Changelog
+# Changelog
+
+## 1.1.2
+- Add [\Wearesho\Cpa\Lead\LeadMemoryRepository](https://github.com/wearesho-team/cpa-integration/blob/1.1.2/src/Lead/LeadMemoryRepository.php)
 
 ## 1.1.1
 - Fix [\Wearesho\Cpa\Interfaces\LeadRepositoryInterface](https://github.com/wearesho-team/cpa-integration/blob/1.1.1/src/Interfaces/LeadRepositoryInterface.php#L16) push method argument name (conversion -> lead)
