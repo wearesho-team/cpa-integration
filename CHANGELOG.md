@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0
+- Integrate [admitad](https://github.com/wearesho-team/cpa-integration/blob/1.2.0/src/AdmitAd)
+- Integrate [Loangate](https://github.com/wearesho-team/cpa-integration/blob/1.2.0/src/Loangate)
+
 ## 1.1.2
 - Add [\Wearesho\Cpa\Lead\LeadMemoryRepository](https://github.com/wearesho-team/cpa-integration/blob/1.1.2/src/Lead/LeadMemoryRepository.php)
 
